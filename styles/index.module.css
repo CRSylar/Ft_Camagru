@@ -26,3 +26,19 @@
 .header__leftElements {
     @apply flex items-center justify-end space-x-4
 }
+
+.errorMsg {
+    color: blue;
+    font-size: small;
+    font-style: italic;
+    @apply truncate
+}
+
+.errorMsg:before {
+    display: inline;
+    content: "⚠ ";
+}
+
+.sing__passField {
+    @apply block pl-10 mt-2 rounded-lg
+}

@@ -1,10 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {getProviders, signIn} from "next-auth/react";
 import Header from "../../components/Header";
 import bgLogo from '../../public/Camagru.png';
 import Image from "next/image";
+import Credentials from "../../components/Credentials";
+import SignUp from "../../components/SignUp";
 
 function Signin ( {providers} ) {
+
+	const [firstTime, setFirstTime] = useState(false)
+
 	return (
 		<>
 			<Header/>
@@ -12,17 +17,30 @@ function Signin ( {providers} ) {
 				<Image
 					className='w-80 z-20'
 					src={bgLogo} alt={'App logo'}/>
-			<div>
-			{Object.values(providers).map((provider) => (
-				<div key={provider.name}>
-					<button
-						className='p-3 bg-blue-500 rounded-lg text-white'
-						onClick={() => signIn(provider.id, { callbackUrl: '/'})}>
-						Sign in with {provider.name}
-					</button>
-				</div>
-			))}
-		</div>
+				{ firstTime ?
+					(
+						<SignUp firstTime={firstTime} setFirstTime={setFirstTime}/>
+					)
+						:
+					(<>
+							<div>
+								{Object.values(providers).map((provider) => {
+									if (provider.name !== 'Credentials') {
+										return (
+											<div key={provider.name}>
+												<button
+													className='p-3 bg-blue-500 rounded-lg text-white'
+													onClick={() => signIn(provider.id, {callbackUrl: '/'})}>
+													Sign in with {provider.name}
+												</button>
+											</div>
+										)}
+								})}
+							</div>
+							<p className='my-7'> OR </p>
+							<Credentials firstTime={firstTime} setFirstTime={setFirstTime}/>
+						</>)
+				}
 			</div>
 		</>
 	);
