@@ -13,7 +13,7 @@ import {
 import {auth} from "../firebase";
 import {getSession} from "next-auth/react";
 
-function Credentials ({firstTime, setFirstTime}) {
+function Credentials ({firstTime, setFirstTime, csrfToken}) {
 
 	const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
 
@@ -79,6 +79,7 @@ function Credentials ({firstTime, setFirstTime}) {
 					firstTime &&
 					<input className='mt-2 rounded-lg' type="text" placeholder="Username" {...register("username", {})} />
 				}
+				<input name="csrfToken" type="hidden" defaultValue={csrfToken} {...register('token')} />
 				<input className='mt-2 rounded-lg' type="email" placeholder="Email" {...register("email", {required: true})} />
 				<div className='max-w-xs flex flex-row'>
 					<div className='mt-1 relative'>

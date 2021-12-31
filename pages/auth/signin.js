@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import {getProviders, signIn} from "next-auth/react";
+import {getCsrfToken, getProviders, signIn} from "next-auth/react";
 import Header from "../../components/Header";
 import bgLogo from '../../public/Camagru.png';
 import Image from "next/image";
 import Credentials from "../../components/Credentials";
 import SignUp from "../../components/SignUp";
 
-function Signin ( {providers} ) {
+function Signin ( {providers, csrfToken} ) {
 
 	const [firstTime, setFirstTime] = useState(false)
 
@@ -38,7 +38,7 @@ function Signin ( {providers} ) {
 								})}
 							</div>
 							<p className='my-7'> OR </p>
-							<Credentials firstTime={firstTime} setFirstTime={setFirstTime}/>
+							<Credentials firstTime={firstTime} setFirstTime={setFirstTime} token={csrfToken}/>
 						</>)
 				}
 			</div>
@@ -51,7 +51,8 @@ export async function getServerSideProps(context) {
 
 	return {
 		props: {
-			providers
+			providers,
+			csrfToken: await getCsrfToken(context),
 		}
 	}
 }
