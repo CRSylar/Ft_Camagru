@@ -1,0 +1,28 @@
+.header {
+    @apply flex justify-between max-w-6xl mx-5 lg:mx-auto
+}
+
+.header__bigLogo {
+    @apply relative hidden md:inline-grid w-24 cursor-pointer
+}
+
+.header__smLogo {
+    @apply relative md:hidden w-24 cursor-pointer
+}
+
+.header__searchBox {
+    @apply mt-1 relative p-3 rounded-md
+}
+
+.header_searchIcon {
+    @apply absolute inset-y-0 pl-3 flex items-center pointer-events-none
+}
+
+.header__searchField {
+    @apply bg-gray-50 block w-full pl-10 sm:text-sm border-gray-300
+    focus:ring-black focus:border-black rounded-md
+}
+
+.header__leftElements {
+    @apply flex items-center justify-end space-x-4
+}
