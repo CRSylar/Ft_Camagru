@@ -25,7 +25,7 @@ function Signin ( {providers, csrfToken} ) {
 					(<>
 							<div>
 								{Object.values(providers).map((provider) => {
-									if (provider.name !== 'Credentials') {
+									if (provider.id !== 'Credentials') {
 										return (
 											<div key={provider.name}>
 												<button

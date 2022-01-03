@@ -16,6 +16,7 @@ import {useRouter} from "next/router";
 import {useRecoilState} from "recoil";
 import {modalState} from "../atoms/modalAtom";
 import Image from "next/image";
+import {auth} from "../firebase";
 
 function Header () {
 

@@ -11,7 +11,17 @@ import {
 	updateProfile,
 } from "firebase/auth";
 import {auth} from "../firebase";
-import {getSession} from "next-auth/react";
+import {signIn} from "next-auth/react";
+
+
+/*
+* signInWithEmailAndPassword(auth, data.email, data.password)
+			.then( userCredential => {
+				if (!userCredential.user.emailVerified)
+					signOut(auth)
+			})
+			.catch(e => alert(e.message))
+* */
 
 function Credentials ({firstTime, setFirstTime, csrfToken}) {
 
@@ -19,6 +29,7 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 
 	const { register, handleSubmit, reset, formState: { errors } } = useForm();
 	const [open, setOpen] = useState(false)
+
 	const onSubmit = data => {
 		if (data.username !== undefined)
 			onSignUp(data)
@@ -27,13 +38,17 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 	};
 
 	const onSignIn = async (data) => {
-		signInWithEmailAndPassword(auth, data.email, data.password)
-			.then( userCredential => {
-				if (!userCredential.user.emailVerified)
-					signOut(auth)
-			})
-			.catch(e => alert(e.message))
 
+		const res = await signIn('Credentials', {
+			redirect: false,
+			email: data.email,
+			password: data.password,
+			callbackUrl: `${window.location.origin}`,
+		})
+		if (res?.error)
+			console.log('Error => ', res.error)
+		else
+			console.log('ok, full res => ',res)
 		reset()
 	}
 
