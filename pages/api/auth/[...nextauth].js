@@ -4,8 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import {
 	signInWithEmailAndPassword,
 	signOut,
-	setPersistence,
-	browserLocalPersistence, updateProfile
+	updateProfile
 } from "firebase/auth";
 import {auth, storage} from "../../../firebase";
 import {getDownloadURL, ref} from "firebase/storage";
@@ -28,19 +27,24 @@ export default NextAuth({
 				return await signInWithEmailAndPassword(auth, credentials?.email, credentials?.password)
 					.then( async userCredential => {
 						if (!userCredential.user.emailVerified) {
-							signOut(auth)
+							await signOut(auth)
 							return null
 						}
 						else{
 							const imageRef = ref(storage, `profilePic/${auth.currentUser.displayName}/image`)
-							const url = await getDownloadURL(imageRef)
+							let url;
+							try {
+								url = await getDownloadURL(imageRef)
+							} catch (e) {
+								url = ''
+							}
 							await updateProfile(auth.currentUser, {
 								photoURL: url
 							})
 							return userCredential.user
 						}
 					})
-					.catch(e => alert(e.message))
+					.catch(e => console.log(e.message))
 			}
 		})
 	],

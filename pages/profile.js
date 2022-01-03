@@ -20,6 +20,7 @@ function Profile () {
 	return (
 		<div className='bg-gray-50 h-screen overflow-y-scroll'>
 			<Header/>
+
 			<main className={`${styles.feed} ${!session && "!grid-cols-1 !max-w-3xl"}`}>
 				<section className='col-span-2'>
 					<Posts filter={session?.user.username}/>

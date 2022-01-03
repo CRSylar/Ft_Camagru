@@ -5,7 +5,7 @@ import { Transition } from "@headlessui/react";
 import styles from '../styles/index.module.css';
 import {
 	createUserWithEmailAndPassword,
-	sendEmailVerification,
+	sendEmailVerification, signInWithEmailAndPassword,
 	updateProfile,
 } from "firebase/auth";
 import {auth} from "../firebase";
@@ -37,6 +37,7 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 			console.log('Error => ', res.error)
 		else {
 			reset()
+			await signInWithEmailAndPassword(auth, data.email, data.password)
 			await router.push('/')
 		}
 	}
