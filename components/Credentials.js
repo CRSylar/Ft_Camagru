@@ -5,23 +5,12 @@ import { Transition } from "@headlessui/react";
 import styles from '../styles/index.module.css';
 import {
 	createUserWithEmailAndPassword,
-	signOut,
 	sendEmailVerification,
-	signInWithEmailAndPassword,
 	updateProfile,
 } from "firebase/auth";
 import {auth} from "../firebase";
 import {signIn} from "next-auth/react";
-
-
-/*
-* signInWithEmailAndPassword(auth, data.email, data.password)
-			.then( userCredential => {
-				if (!userCredential.user.emailVerified)
-					signOut(auth)
-			})
-			.catch(e => alert(e.message))
-* */
+import {useRouter} from "next/router";
 
 function Credentials ({firstTime, setFirstTime, csrfToken}) {
 
@@ -29,6 +18,7 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 
 	const { register, handleSubmit, reset, formState: { errors } } = useForm();
 	const [open, setOpen] = useState(false)
+	const router = useRouter()
 
 	const onSubmit = data => {
 		if (data.username !== undefined)
@@ -38,7 +28,6 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 	};
 
 	const onSignIn = async (data) => {
-
 		const res = await signIn('Credentials', {
 			redirect: false,
 			email: data.email,
@@ -47,9 +36,10 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 		})
 		if (res?.error)
 			console.log('Error => ', res.error)
-		else
-			console.log('ok, full res => ',res)
-		reset()
+		else {
+			reset()
+			await router.push('/')
+		}
 	}
 
 	const onSignUp = (data) => {

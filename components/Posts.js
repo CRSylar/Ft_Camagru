@@ -1,19 +1,32 @@
 import React, {useEffect, useState} from 'react';
-import {collection, onSnapshot, orderBy, query} from 'firebase/firestore';
+import {collection, onSnapshot, orderBy, query, where} from 'firebase/firestore';
 import Post from "./Post";
 import {db} from "../firebase";
 
-function Posts () {
+function Posts ({filter}) {
 
 	const [posts, setPosts] = useState([])
 
-	useEffect( () =>
-		onSnapshot(
-			query(collection(db, 'posts'), orderBy('timestamp', 'desc')),
+	useEffect( () => {
+		if (filter) {
+			return onSnapshot(
+				query(collection(db, 'posts'),
+					where('username', '==', filter),
+					orderBy('timestamp', 'desc')),
 				snapshot => {
-				setPosts(snapshot.docs)
-			}
-			),
+					setPosts(snapshot.docs)
+				}
+			)
+		}
+		else
+			return onSnapshot(
+				query(collection(db, 'posts'),
+					orderBy('timestamp', 'desc')),
+				snapshot => {
+					setPosts(snapshot.docs)
+				}
+			)
+		},
 		[db]
 	)
 
@@ -26,7 +39,8 @@ function Posts () {
 					username={post.data().username}
 					userImg={post.data().profileImg}
 					img={post.data().image}
-					caption={post.data().caption}/>
+					caption={post.data().caption}
+					mine={filter}/>
 				))
 			}
 		</div>

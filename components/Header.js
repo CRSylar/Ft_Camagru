@@ -2,10 +2,10 @@ import React from 'react';
 import {
 	SearchIcon,
 	PlusCircleIcon,
-	UserGroupIcon,
-	HeartIcon,
+	CogIcon,
 	MenuIcon,
 	HomeIcon,
+	LogoutIcon
 } from '@heroicons/react/outline'
 import { CameraIcon } from "@heroicons/react/solid";
 import logoBig from '../public/Camagru.png'
@@ -16,7 +16,6 @@ import {useRouter} from "next/router";
 import {useRecoilState} from "recoil";
 import {modalState} from "../atoms/modalAtom";
 import Image from "next/image";
-import {auth} from "../firebase";
 
 function Header () {
 
@@ -57,10 +56,12 @@ function Header () {
 						<>
 						<PlusCircleIcon className='navBtn'
 						                onClick={() => setOpen(true)} />
-							<UserGroupIcon className='navBtn' />
-							<HeartIcon className='navBtn' />
+							<CogIcon className='navBtn'
+							         onClick={ () => router.push('/settings')} />
+							<LogoutIcon className='navBtn'
+							           onClick={() => signOut({redirect:false})}  />
 							<img
-								onClick={signOut}
+								onClick={ () => router.push('/profile')}
 								src={session?.user?.image}
 								alt={'profile pic'} className='h-10 w-10 rounded-full cursor-pointer'/>
 						</>

@@ -3,7 +3,8 @@ import {
 	BookmarkIcon,
 	DotsHorizontalIcon,
 	EmojiHappyIcon,
-	HeartIcon
+	HeartIcon,
+	TrashIcon
 } from "@heroicons/react/outline";
 import { HeartIcon as HeartIconFilled } from '@heroicons/react/solid';
 import {useSession} from "next-auth/react";
@@ -21,9 +22,11 @@ import {
 import {db} from "../firebase";
 import styles from '../styles/Post.module.css';
 import Moment from "react-moment";
+import {useRouter} from "next/router";
 
-function Post ({id, username, userImg, img, caption}) {
+function Post ({id, username, userImg, img, caption, mine}) {
 
+	const router = useRouter()
 	const {data: session } = useSession()
 	const [comment, setComment] = useState("")
 	const [comments, setComments] = useState([])
@@ -77,6 +80,11 @@ function Post ({id, username, userImg, img, caption}) {
 		})
 	}
 
+	const deletePost = async () => {
+		await deleteDoc(doc(db, 'posts', id))
+		router.reload()
+	};
+
 	return (
 		<div className='bg-white my-7 border rounded-sm'>
 			 {/* Header */}
@@ -85,6 +93,8 @@ function Post ({id, username, userImg, img, caption}) {
 					className='rounded-full h-10 w-10 object-contain border p-1 mr-3'
 					src={userImg} alt={username[0].toUpperCase()}  />
 				<p className='flex-1 font-bold'>{username}</p>
+				{mine && <TrashIcon className='h-5 mr-3'
+				                    onClick={deletePost} />}
 				<DotsHorizontalIcon className='h-5'/>
 			</div>
 			{/* img */}

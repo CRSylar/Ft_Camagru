@@ -21,7 +21,6 @@ export default NextAuth({
 			async authorize(credentials) {
 				return await signInWithEmailAndPassword(auth, credentials?.email, credentials?.password)
 					.then(userCredential => {
-						console.log(userCredential)
 						if (!userCredential.user.emailVerified)
 							signOut(auth)
 						else return userCredential.user
@@ -37,7 +36,6 @@ export default NextAuth({
 
 	callbacks: {
 		async session({ session, token }) {
-			console.log('ses =>',session)
 
 			if (session.user.name) {
 				session.user.username = session.user.name
@@ -52,6 +50,10 @@ export default NextAuth({
 
 			session.user.uid = token.sub
 			return session;
+		},
+
+		redirect() {
+			return 'http://localhost:3000';
 		}
 	}
 })
