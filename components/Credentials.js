@@ -32,7 +32,6 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 			redirect: false,
 			email: data.email,
 			password: data.password,
-			callbackUrl: `${window.location.origin}`,
 		})
 		if (res?.error)
 			console.log('Error => ', res.error)

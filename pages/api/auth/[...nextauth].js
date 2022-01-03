@@ -1,8 +1,14 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from 'next-auth/providers/credentials'
-import {signInWithEmailAndPassword, signOut,} from "firebase/auth";
-import {auth} from "../../../firebase";
+import {
+	signInWithEmailAndPassword,
+	signOut,
+	setPersistence,
+	browserLocalPersistence, updateProfile
+} from "firebase/auth";
+import {auth, storage} from "../../../firebase";
+import {getDownloadURL, ref} from "firebase/storage";
 
 export default NextAuth({
 	// Configure one or more authentication providers
@@ -20,32 +26,50 @@ export default NextAuth({
 			},
 			async authorize(credentials) {
 				return await signInWithEmailAndPassword(auth, credentials?.email, credentials?.password)
-					.then(userCredential => {
-						if (!userCredential.user.emailVerified)
+					.then( async userCredential => {
+						if (!userCredential.user.emailVerified) {
 							signOut(auth)
-						else return userCredential.user
+							return null
+						}
+						else{
+							const imageRef = ref(storage, `profilePic/${auth.currentUser.displayName}/image`)
+							const url = await getDownloadURL(imageRef)
+							await updateProfile(auth.currentUser, {
+								photoURL: url
+							})
+							return userCredential.user
+						}
 					})
 					.catch(e => alert(e.message))
 			}
 		})
 	],
 
+	secret: process.env.NEXTAUTH_SECRET,
 	pages: {
 		signIn: '/auth/signin',
 	},
 
 	callbacks: {
-		async session({ session, token }) {
+		async jwt({ token, user}){
+			user && (token.user = user)
+			return token
+		},
 
-			if (session.user.name) {
+		async session({session, token }) {
+
+			//console.log(token.user)
+			if (token.user.emailVerified !== undefined) {
+				session.user.name = token.user.displayName;
+				session.user.image = token.user.providerData[0].photoURL
+				session.user.username = token.user.displayName
+				session.fireUser = token.user
+			}
+			else {
 				session.user.username = session.user.name
 					.split(' ')
 					.join('')
 					.toLocaleLowerCase()
-			}
-			else {
-				session.user.username = session.user.email
-					.split('@')[0]
 			}
 
 			session.user.uid = token.sub
