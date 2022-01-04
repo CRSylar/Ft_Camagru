@@ -4,6 +4,7 @@ import Posts from "../components/Posts";
 import {useSession} from "next-auth/react";
 import styles from "../styles/Feed.module.css";
 import {useRouter} from "next/router";
+import Modal from "../components/Modal";
 
 function Profile () {
 
@@ -26,6 +27,8 @@ function Profile () {
 					<Posts filter={session?.user.username}/>
 				</section>
 			</main>
+
+			<Modal/>
 		</div>
 	);
 }

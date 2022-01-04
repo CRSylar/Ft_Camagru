@@ -22,16 +22,16 @@ import {
 import {db} from "../firebase";
 import styles from '../styles/Post.module.css';
 import Moment from "react-moment";
-import {useRouter} from "next/router";
+import ConfirmModal from "./ConfirmModal";
 
 function Post ({id, username, userImg, img, caption, mine}) {
 
-	const router = useRouter()
 	const {data: session } = useSession()
 	const [comment, setComment] = useState("")
 	const [comments, setComments] = useState([])
 	const [likes, setLikes] = useState([])
 	const [hasLiked, setHasLiked] = useState(false)
+	const [openConfirm, setOpenConfirm] = useState(false)
 
 	useEffect(
 		() =>
@@ -80,11 +80,6 @@ function Post ({id, username, userImg, img, caption, mine}) {
 		})
 	}
 
-	const deletePost = async () => {
-		await deleteDoc(doc(db, 'posts', id))
-		router.reload()
-	};
-
 	return (
 		<div className='bg-white my-7 border rounded-sm'>
 			 {/* Header */}
@@ -94,7 +89,8 @@ function Post ({id, username, userImg, img, caption, mine}) {
 					src={userImg} alt={username[0].toUpperCase()}  />
 				<p className='flex-1 font-bold'>{username}</p>
 				{mine && <TrashIcon className='h-5 mr-3'
-				                    onClick={deletePost} />}
+				                    onClick={() => setOpenConfirm(true)} />}
+				<ConfirmModal isOpen={openConfirm} setIsOpen={setOpenConfirm} id={id}/>
 				<DotsHorizontalIcon className='h-5'/>
 			</div>
 			{/* img */}
