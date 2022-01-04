@@ -4,10 +4,9 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import {
 	signInWithEmailAndPassword,
 	signOut,
-	updateProfile
 } from "firebase/auth";
-import {auth, storage} from "../../../firebase";
-import {getDownloadURL, ref} from "firebase/storage";
+import {auth, db} from "../../../firebase";
+import {collection, getDocs, query, where} from "firebase/firestore";
 
 export default NextAuth({
 	// Configure one or more authentication providers
@@ -31,17 +30,14 @@ export default NextAuth({
 							return null
 						}
 						else{
-							const imageRef = ref(storage, `profilePic/${auth.currentUser.displayName}/image`)
-							let url;
-							try {
-								url = await getDownloadURL(imageRef)
-							} catch (e) {
-								url = ''
-							}
-							await updateProfile(auth.currentUser, {
-								photoURL: url
+							let q = query(collection(db, 'users'),
+								where('email', '==', userCredential.user.email))
+							const querySnap = await getDocs(q)
+							querySnap.forEach( doc => {
+								q = doc.data()
+								console.log(doc.id, ' > ', doc.data())
 							})
-							return userCredential.user
+							return q
 						}
 					})
 					.catch(e => console.log(e.message))
@@ -62,21 +58,7 @@ export default NextAuth({
 
 		async session({session, token }) {
 
-			//console.log(token.user)
-			if (token.user.emailVerified !== undefined) {
-				session.user.name = token.user.displayName;
-				session.user.image = token.user.providerData[0].photoURL
-				session.user.username = token.user.displayName
-				session.fireUser = token.user
-			}
-			else {
-				session.user.username = session.user.name
-					.split(' ')
-					.join('')
-					.toLocaleLowerCase()
-			}
-
-			session.user.uid = token.sub
+			session.user = token.user;
 			return session;
 		},
 

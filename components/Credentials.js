@@ -8,10 +8,11 @@ import {
 	sendEmailVerification, signInWithEmailAndPassword,
 	updateProfile,
 } from "firebase/auth";
-import {auth} from "../firebase";
+import {auth, db} from "../firebase";
 import {signIn} from "next-auth/react";
 import {useRouter} from "next/router";
 import {useAlert} from "react-alert";
+import {addDoc, collection} from "firebase/firestore";
 
 function Credentials ({firstTime, setFirstTime, csrfToken}) {
 
@@ -45,16 +46,15 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 
 	const onSignUp = (data) => {
 		createUserWithEmailAndPassword(auth, data.email, data.password)
-			.then( userCredential => {
+			.then(async userCredential => {
 				if (!userCredential.user.emailVerified) {
-					if (data.username)
-						updateProfile(userCredential.user, {
-							displayName: data.username
-						})
-					else
-						updateProfile(userCredential.user, {
-							displayName: data.email.split('@')[0]
-						})
+					await addDoc(collection(db, 'users'),{
+						uid: userCredential.user.uid,
+						username: data.username,
+						proPic: userCredential.user.photoURL,
+						email: userCredential.user.email,
+						notification: true,
+					})
 					sendEmailVerification(auth.currentUser)
 						.then( () => alert.show('Verification Email Sent!', {type: 'success'}) )
 				}
@@ -83,7 +83,7 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 				onSubmit={handleSubmit(onSubmit)}>
 				{
 					firstTime &&
-					<input className='mt-2 rounded-lg' type="text" placeholder="Username" {...register("username", {})} />
+					<input className='mt-2 rounded-lg' type="text" placeholder="Username" {...register("username", {required: true})} />
 				}
 				<input name="csrfToken" type="hidden" defaultValue={csrfToken} {...register('token')} />
 				<input className='mt-2 rounded-lg' type="email" placeholder="Email" {...register("email", {required: true})} />

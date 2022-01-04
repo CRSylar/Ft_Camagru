@@ -1,8 +1,9 @@
 import React, {useRef, useState} from 'react';
 import {CameraIcon, CheckCircleIcon} from "@heroicons/react/solid";
 import {getDownloadURL, ref, uploadString} from "firebase/storage";
-import {storage} from "../firebase";
+import {db, storage} from "../firebase";
 import {useSession} from "next-auth/react";
+import {collection, doc, query, updateDoc, where, getDocs} from "firebase/firestore";
 
 function ProfilePic () {
 
@@ -27,16 +28,22 @@ function ProfilePic () {
 		if (loading) return
 
 		setLoading(true)
-		const imageRef = ref(storage, `profilePic/${session.user.username}/image`)
+		const imageRef = ref(storage, `profilePic/${session.user.uid}/image`)
 
 		await uploadString(imageRef, localImg, "data_url")
 			.then( async snapshot => {
+				const q = query(collection(db, 'users'), where('email', '==', session.user.email))
+				const querySnap = await getDocs(q)
 				session.user.image = await getDownloadURL(imageRef)
-
+				console.log(querySnap)
+				/*await updateDoc(doc(db, 'users', querySnap), {
+					proPic : session.user.image,
+				})*/
 				setLocalImg(null)
 			})
 	}
 
+	console.log(session)
 	return (
 		<div>
 			<div className='my-7'>
