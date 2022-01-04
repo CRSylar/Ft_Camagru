@@ -1,15 +1,8 @@
 import '../styles/globals.css'
 import { SessionProvider} from "next-auth/react";
 import {RecoilRoot} from "recoil";
-import {transitions, positions, Provider as AlertProvider} from "react-alert";
-import AlertTemplate from "react-alert-template-basic";
-
-const alertOptions = {
-  position : positions.MIDDLE,
-  timeout: 4000,
-  offset: '30px',
-  transitions: transitions.FADE
-}
+import {alertOptions, AlertTemplate} from "../common/AlertSetting";
+import { Provider as AlertProvider } from 'react-alert'
 
 function MyApp({ Component, pageProps: {session, ...pageProps} }) {
   return (

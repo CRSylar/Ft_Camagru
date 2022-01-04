@@ -44,7 +44,7 @@ function Settings () {
 	async function resetPassword () {
 		if (auth.currentUser) {
 			sendPasswordResetEmail(auth, session.user.email )
-				.then( () => alert.show('Email Sent!'))
+				.then( () => alert.show('Email Sent!',{ type:'success'}))
 		}
 	}
 

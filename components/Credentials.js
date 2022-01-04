@@ -11,11 +11,12 @@ import {
 import {auth} from "../firebase";
 import {signIn} from "next-auth/react";
 import {useRouter} from "next/router";
+import {useAlert} from "react-alert";
 
 function Credentials ({firstTime, setFirstTime, csrfToken}) {
 
 	const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-
+	const alert = useAlert()
 	const { register, handleSubmit, reset, formState: { errors } } = useForm();
 	const [open, setOpen] = useState(false)
 	const router = useRouter()
@@ -55,10 +56,10 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 							displayName: data.email.split('@')[0]
 						})
 					sendEmailVerification(auth.currentUser)
-						.then( () => alert('Verification Email Sended!') )
+						.then( () => alert.show('Verification Email Sent!', {type: 'success'}) )
 				}
 			})
-			.catch(e => alert(e.message))
+			.catch(e => alert.show(e.message, {type: 'error'}))
 
 		reset()
 	}
