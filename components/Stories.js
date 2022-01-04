@@ -26,7 +26,7 @@ function Stories() {
 			{ session && (
 				 <Story
 					 username={session?.user?.username}
-					 img={session?.user?.image} />
+					 img={session?.user?.proPic} />
 			)}
 
 			{suggestions.map( (profile) => (

@@ -74,14 +74,10 @@ export default NextAuth({
 					})
 					const docSnap = await getDoc(newUserDoc)
 					session.user = docSnap.data()
-					console.log('final ? >> ', session.user)
 					return session
 				}
 			else {
-				querySnap.forEach( doc => {
-					console.log(doc)
-					q = doc.data()
-				})
+				querySnap.forEach( doc => q = doc.data())
 				session.user = q
 				return session
 				}
@@ -91,7 +87,7 @@ export default NextAuth({
 		},
 
 		redirect() {
-			return 'http://localhost:3000';
+			return process.env.NEXTAUTH_URL;
 		}
 	}
 })

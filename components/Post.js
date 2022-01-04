@@ -75,7 +75,7 @@ function Post ({id, username, userImg, img, caption, mine}) {
 		await addDoc(collection(db, 'posts', id, 'comments'), {
 			comment: commentToSend,
 			username: session.user.username,
-			userImg: session.user.image,
+			userImg: session.user.proPic,
 			timestamp: serverTimestamp()
 		})
 	}
@@ -95,7 +95,7 @@ function Post ({id, username, userImg, img, caption, mine}) {
 			</div>
 			{/* img */}
 			<img
-				className='object-cover w-full h-[500px]'
+				className='object-contain w-full'
 				src={img} alt={'X'}  />
 
 			{/* buttons */}

@@ -27,7 +27,7 @@ function Modal () {
 			username: session.user.username,
 			email: session.user.email,
 			caption: captionRef.current.value,
-			profileImg: session.user.image ? session.user.image: 'empty',
+			profileImg: session.user.proPic,
 			timestamp: serverTimestamp()
 		})
 
