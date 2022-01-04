@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ExclamationCircleIcon} from "@heroicons/react/solid";
 import {auth} from "../firebase";
 import {sendEmailVerification, sendPasswordResetEmail, updateEmail, updateProfile} from "firebase/auth";
 import {useAlert} from "react-alert";
 import {useSession} from "next-auth/react";
 import {useForm} from "react-hook-form";
+import { Switch } from '@headlessui/react'
 
 function SettingsManager () {
 
@@ -12,6 +13,7 @@ function SettingsManager () {
 	const {data: session} = useSession()
 	const { register, handleSubmit, reset } = useForm();
 	const { register: rRegister, handleSubmit: hHandleSubmit, reset: rReset } = useForm();
+	const [ enabled, setEnabled ] = useState(false)
 
 	async function onSubmitMail ({email}) {
 		if (auth.currentUser) {
@@ -68,6 +70,22 @@ function SettingsManager () {
 				        onClick={resetPassword}>
 					{'Send Reset Password Mail'}
 				</button>
+			</div>
+			<div className='mt-10 items-center flex flex-col mx-auto max-w-xs'>
+				<div className='border rounded-lg bg-blue-400 mb-3 text-white px-4'>{'Email Notifications ?'}</div>
+				<Switch checked={enabled}
+				        onChange={() => {
+				        	//TODO - CAPIRE COME PRENDERE I DATI DA FIREBASE
+				        	console.log(auth.currentUser)
+					        setEnabled(!enabled)
+				        }}
+				        className={`${enabled? 'bg-blue-400' : 'bg-gray-200'} 
+			          relative inline-flex items-center h-6 rounded-full w-11`}
+				>
+					<span className='sr-only'>{'Email Notification ?'}</span>
+					<span className={`${enabled? 'translate-x-6' : 'translate-x-1'}
+								inline-block w-4 h-4 transform bg-white rounded-full`}/>
+				</Switch>
 			</div>
 		</div>
 	);
