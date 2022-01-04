@@ -96,7 +96,7 @@ function Post ({id, username, userImg, img, caption, mine}) {
 			{/* img */}
 			<img
 				className='object-contain w-full'
-				src={img} alt={'X'}  />
+				src={img} alt={'postImgNotFound'}  />
 
 			{/* buttons */}
 			{ session && (
