@@ -62,7 +62,7 @@ function Header () {
 							           onClick={() => signOut({redirect:false})}  />
 							<img
 								onClick={ () => router.push('/profile')}
-								src={session?.user?.image}
+								src={session?.user?.proPic}
 								alt={'profile pic'} className='h-10 w-10 rounded-full cursor-pointer'/>
 						</>
 						)

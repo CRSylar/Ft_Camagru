@@ -32,13 +32,13 @@ function ProfilePic () {
 
 		await uploadString(imageRef, localImg, "data_url")
 			.then( async snapshot => {
-				const q = query(collection(db, 'users'), where('email', '==', session.user.email))
+				let q = query(collection(db, 'users'), where('email', '==', session.user.email))
 				const querySnap = await getDocs(q)
-				session.user.image = await getDownloadURL(imageRef)
-				console.log(querySnap)
-				/*await updateDoc(doc(db, 'users', querySnap), {
+				session.user.proPic = await getDownloadURL(imageRef)
+				querySnap.forEach( doc => {q = doc.id})
+				await updateDoc(doc(db, 'users', q), {
 					proPic : session.user.image,
-				})*/
+				})
 				setLocalImg(null)
 			})
 	}
@@ -52,7 +52,7 @@ function ProfilePic () {
 					      src={localImg} alt={'x'}/>)
 					:
 					(<img className='h-40 w-40 rounded-full mx-auto'
-					      src={session?.user?.image} alt={'x'}/>
+					      src={session?.user?.proPic} alt={'x'}/>
 					)}
 			</div>
 			{ localImg?

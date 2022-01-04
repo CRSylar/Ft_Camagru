@@ -6,7 +6,7 @@ import {
 	signOut,
 } from "firebase/auth";
 import {auth, db} from "../../../firebase";
-import {collection, getDocs, query, where} from "firebase/firestore";
+import {addDoc, collection, getDoc, getDocs, query, where} from "firebase/firestore";
 
 export default NextAuth({
 	// Configure one or more authentication providers
@@ -35,7 +35,6 @@ export default NextAuth({
 							const querySnap = await getDocs(q)
 							querySnap.forEach( doc => {
 								q = doc.data()
-								console.log(doc.id, ' > ', doc.data())
 							})
 							return q
 						}
@@ -58,6 +57,35 @@ export default NextAuth({
 
 		async session({session, token }) {
 
+			if (session.user.name || session.user.image) {
+				let q = query(collection(db, 'users'),
+					where('email', '==', session.user.email))
+				const querySnap = await getDocs(q)
+				if (querySnap.empty){
+					const newUserDoc = await addDoc(collection(db, 'users'),{
+						uid: token.user.id,
+						username: session.user.name
+							.split(' ')
+							.join('')
+							.toLocaleLowerCase(),
+						proPic: session.user.image,
+						email: session.user.email,
+						notification: true,
+					})
+					const docSnap = await getDoc(newUserDoc)
+					session.user = docSnap.data()
+					console.log('final ? >> ', session.user)
+					return session
+				}
+			else {
+				querySnap.forEach( doc => {
+					console.log(doc)
+					q = doc.data()
+				})
+				session.user = q
+				return session
+				}
+			}
 			session.user = token.user;
 			return session;
 		},
