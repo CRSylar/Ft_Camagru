@@ -64,7 +64,7 @@ function SettingsManager () {
 					<div className='mx-auto'>
 						<input className='mt-2 rounded-lg' type="email" placeholder="Email" {...register("email", {required: true})} />
 						<button className='h-[42px] mx-1 border bg-blue-400 text-white px-1 rounded-lg'
-						        type={'submit'}> Change </button>
+						        type={'submit'}> {"Change"} </button>
 						<div className='flex flex-row items-center'>
 							<ExclamationCircleIcon className='h-6 w-6 text-orange-600 mr-2'/>
 							<span className='text-sm text-orange-600'>{'Remember to verify the new Email !'}</span>
@@ -76,7 +76,7 @@ function SettingsManager () {
 					<div className='mx-auto'>
 						<input className='mt-2 rounded-lg' type="text" placeholder="Username" {...rRegister("username", {required: true})} />
 						<button className='h-[42px] mx-1 border bg-blue-400 text-white px-1 rounded-lg'
-						        type={'submit'}> Change </button>
+						        type={'submit'}> {"Change"} </button>
 					</div>
 				</form>
 			</div>
@@ -84,7 +84,7 @@ function SettingsManager () {
 			<div className='mt-14 mx-auto max-w-xs flex flex-col px-6'>
 				<button className='border h-[42px] bg-blue-400 text-white rounded-lg'
 				        onClick={resetPassword}>
-					{'Send Reset Password Mail'}
+					{'Send Reset Password Email'}
 				</button>
 			</div>
 			<div className='mt-10 items-center flex flex-col mx-auto max-w-xs'>

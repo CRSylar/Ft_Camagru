@@ -13,7 +13,7 @@ function Profile () {
 
 	useEffect(() => {
 		if (!session)
-			router.push('/')}
+			router.push('/auth/signin')}
 		,
 		[session]
 	)

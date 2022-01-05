@@ -13,7 +13,7 @@ function Settings () {
 
 	useEffect( () => {
 		if (!session)
-			router.push('/')
+			router.push('/auth/singin')
 	}, [session])
 
 	return (

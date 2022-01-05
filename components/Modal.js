@@ -8,9 +8,11 @@ import {db, storage} from "../firebase";
 import {addDoc, collection, serverTimestamp, updateDoc, doc } from 'firebase/firestore';
 import {useSession} from "next-auth/react";
 import { ref, getDownloadURL, uploadString} from 'firebase/storage';
+import {useRouter} from "next/router";
 
 function Modal () {
 
+	const router = useRouter()
 	const {data: session} = useSession()
 	const [selectedFile, setSelectedFile] = useState(null)
 	const [open, setOpen] = useRecoilState(modalState)
@@ -55,6 +57,11 @@ function Modal () {
 		reader.onload = (readerEvent) => {
 			setSelectedFile(readerEvent.target.result)
 		}
+	}
+
+	function takeSnapshot () {
+		setOpen(false)
+		router.push('/snapshot')
 	}
 
 	return (
@@ -142,11 +149,17 @@ function Modal () {
 										type={'button'}
 										disabled={!selectedFile}
 										className={styles.modal__button}
-										onClick={uploadPost}
-									>
+										onClick={uploadPost}  >
 										{loading? 'Uploading...' : 'Upload Post'}
 									</button>
 								</div>
+								<div className='flex mx-auto text-center flex-col m-3'>
+									Or
+								</div>
+									<button className={styles.modal__button}
+									        onClick={takeSnapshot}  >
+										{'Take a Snapshot'}
+									</button>
 							</div>
 						</div>
 
