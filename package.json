@@ -11,6 +11,7 @@
     "@tailwindcss/forms": "^0.4.0",
     "faker": "^5.5.3",
     "firebase": "^9.6.1",
+    "mailslurp-client": "^15.0.2",
     "next": "latest",
     "next-auth": "^4.0.6",
     "react": "^17.0.2",

@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ExclamationCircleIcon} from "@heroicons/react/solid";
-import {auth} from "../firebase";
+import {auth, db} from "../firebase";
 import {sendEmailVerification, sendPasswordResetEmail, updateEmail, updateProfile} from "firebase/auth";
 import {useAlert} from "react-alert";
 import {useSession} from "next-auth/react";
 import {useForm} from "react-hook-form";
 import { Switch } from '@headlessui/react'
+import {collection, doc, getDocs, query, updateDoc, where} from "firebase/firestore";
 
 function SettingsManager () {
 
@@ -14,6 +15,10 @@ function SettingsManager () {
 	const { register, handleSubmit, reset } = useForm();
 	const { register: rRegister, handleSubmit: hHandleSubmit, reset: rReset } = useForm();
 	const [ enabled, setEnabled ] = useState(false)
+
+	useEffect( () =>
+		setEnabled(session.user.notification)
+	, [])
 
 	async function onSubmitMail ({email}) {
 		if (auth.currentUser) {
@@ -38,6 +43,17 @@ function SettingsManager () {
 			sendPasswordResetEmail(auth, session.user.email )
 				.then( () => alert.show('Email Sent!',{ type:'success'}))
 		}
+	}
+
+	async function toggleNotification () {
+		let q = query(collection(db, 'users'),
+			where('email', '==', session.user.email))
+		const querySnap = await getDocs(q)
+		querySnap.forEach( doc => q = doc.id)
+		await updateDoc(doc(db, 'users', q), {
+			notification: !enabled
+		})
+		setEnabled( (e) => !e )
 	}
 
 	return (
@@ -74,11 +90,7 @@ function SettingsManager () {
 			<div className='mt-10 items-center flex flex-col mx-auto max-w-xs'>
 				<div className='border rounded-lg bg-blue-400 mb-3 text-white px-4'>{'Email Notifications ?'}</div>
 				<Switch checked={enabled}
-				        onChange={() => {
-				        	//TODO - CAPIRE COME PRENDERE I DATI DA FIREBASE
-				        	console.log(auth.currentUser)
-					        setEnabled(!enabled)
-				        }}
+				        onChange={toggleNotification}
 				        className={`${enabled? 'bg-blue-400' : 'bg-gray-200'} 
 			          relative inline-flex items-center h-6 rounded-full w-11`}
 				>

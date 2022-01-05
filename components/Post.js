@@ -78,6 +78,11 @@ function Post ({id, username, userImg, img, caption, mine}) {
 			userImg: session.user.proPic,
 			timestamp: serverTimestamp()
 		})
+		fetch('/api/mailer', {
+			method: 'post',
+			headers: {'Content-type': 'application/json'},
+			body: JSON.stringify({to: session.user.email, username: session.user.username})
+		})
 	}
 
 	return (

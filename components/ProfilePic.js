@@ -37,13 +37,12 @@ function ProfilePic () {
 				session.user.proPic = await getDownloadURL(imageRef)
 				querySnap.forEach( doc => {q = doc.id})
 				await updateDoc(doc(db, 'users', q), {
-					proPic : session.user.image,
+					proPic : session.user.proPic,
 				})
 				setLocalImg(null)
 			})
 	}
 
-	console.log(session)
 	return (
 		<div>
 			<div className='my-7'>
