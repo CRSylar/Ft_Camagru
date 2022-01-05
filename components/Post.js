@@ -79,16 +79,18 @@ function Post ({id, username, userImg, userMail, img, caption, mine}) {
 			userImg: session.user.proPic,
 			timestamp: serverTimestamp()
 		})
-		await axios({
-			url: '/api/mailer',
-			method: 'post',
-			headers: {'Content-type': 'application/json'},
-			data: JSON.stringify({
-				to: userMail,
-				creatorName: username,
-				username: session.user.username
+		if (userMail !== session.user.email) {
+			await axios({
+				url: '/api/mailer',
+				method: 'post',
+				headers: {'Content-type': 'application/json'},
+				data: JSON.stringify({
+					to: userMail,
+					creatorName: username,
+					username: session.user.username
+				})
 			})
-		})
+		}
 	}
 
 	return (
