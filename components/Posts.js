@@ -38,6 +38,7 @@ function Posts ({filter}) {
 					id={post.id}
 					username={post.data().username}
 					userImg={post.data().profileImg}
+					userMail={post.data().email}
 					img={post.data().image}
 					caption={post.data().caption}
 					mine={filter}/>

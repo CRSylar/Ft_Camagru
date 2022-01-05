@@ -1,31 +1,39 @@
-import { MailSlurp } from "mailslurp-client";
+import SibApiV3Sdk from 'sib-api-v3-sdk';
 
-const apiKey = process.env.MAIL_SLURP_API ?? 'your-api-key';
-const mailslurp = new MailSlurp({ apiKey });
+const defaultClient = SibApiV3Sdk.ApiClient.instance;
+
+// Configure API key authorization: api-key
+const apiKey = defaultClient.authentications['api-key'];
+apiKey.apiKey = process.env.SENDINBLUE_KEY;
+
+
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+
+let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
 
 
 export default function Mailer(req, res) {
 
-	const {to, username} = req.body
+	const {to, creatorName, username} = req.body
 
 	console.log('T > ', to, '\nU > ', username)
 
-	mailslurp.inboxController.sendEmail ({
-		inboxId: '3f05f827-6a4c-49f3-a753-c7fe8a97f169',
-		sendEmailOptions: {
-			to: [to],
-			subject: `noreply@Camagru - ${username} has commented your Post!`,
-			body: `Hi ${to}, there's a new comment to one of your Post by ${username}, let's check it out at ${process.env.NEXTAUTH_URL}`,
-		}
-	})
-		.catch(e => console.log(e))
-}
+	sendSmtpEmail = {
+		to: [{
+			email: to,
+			name: 'CamagruApp'
+		}],
+		templateId: 1,
+		params: {
+			creatorName,
+			username,
+			host: process.env.NEXTAUTH_URL
+		},
+	};
 
-/*
-* '3f05f827-6a4c-49f3-a753-c7fe8a97f169', {
-			to: [to],
-			subject: `noreply@Camagru - ${username} has commented your Post!`,
-			body: `Hi ${to}, there's a new comment to one of your Post by ${username}, let's check it out at ${process.env.NEXTAUTH_URL}`,
-		}
-*
-* */
+	apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data) {
+		console.log('API called successfully. Returned data: ' + data);
+	}, function(error) {
+		console.error(error);
+	});
+}

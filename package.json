@@ -9,9 +9,9 @@
     "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
     "@tailwindcss/forms": "^0.4.0",
+    "axios": "^0.24.0",
     "faker": "^5.5.3",
     "firebase": "^9.6.1",
-    "mailslurp-client": "^15.0.2",
     "next": "latest",
     "next-auth": "^4.0.6",
     "react": "^17.0.2",
@@ -20,7 +20,8 @@
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.22.5",
     "react-moment": "^1.1.1",
-    "recoil": "^0.5.2"
+    "recoil": "^0.5.2",
+    "sib-api-v3-sdk": "^8.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.0",

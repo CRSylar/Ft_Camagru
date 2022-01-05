@@ -23,8 +23,9 @@ import {db} from "../firebase";
 import styles from '../styles/Post.module.css';
 import Moment from "react-moment";
 import ConfirmModal from "./ConfirmModal";
+import axios from "axios";
 
-function Post ({id, username, userImg, img, caption, mine}) {
+function Post ({id, username, userImg, userMail, img, caption, mine}) {
 
 	const {data: session } = useSession()
 	const [comment, setComment] = useState("")
@@ -78,10 +79,15 @@ function Post ({id, username, userImg, img, caption, mine}) {
 			userImg: session.user.proPic,
 			timestamp: serverTimestamp()
 		})
-		fetch('/api/mailer', {
+		await axios({
+			url: '/api/mailer',
 			method: 'post',
 			headers: {'Content-type': 'application/json'},
-			body: JSON.stringify({to: session.user.email, username: session.user.username})
+			data: JSON.stringify({
+				to: userMail,
+				creatorName: username,
+				username: session.user.username
+			})
 		})
 	}
 
