@@ -1,5 +1,5 @@
 .header {
-    @apply flex justify-between max-w-6xl mx-5 lg:mx-auto
+    @apply flex justify-between max-w-6xl mx-5 xl:mx-auto
 }
 
 .header__bigLogo {

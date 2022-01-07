@@ -4,7 +4,10 @@ import styles from '../styles/Feed.module.css';
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {CameraIcon} from "@heroicons/react/solid";
-import {STICKERS} from "../common/Stickers";
+import Sunglas from '/public/Stickers/Sunglass.png'
+import Image from "next/image";
+import {constant} from "../common/Stickers";
+import Sunglass from "../public/Stickers/Sunglass.png";
 
 function Snapshot () {
 
@@ -48,14 +51,22 @@ function Snapshot () {
 	const paintToCanvas = () => {
 		const video = videoRef.current;
 		const photo = photoRef.current;
+		const stick = stickerRef.current
 		const ctx = photo?.getContext("2d");
+		const _ctx = stick?.getContext('2d');
 
-		photo?.width = 300;
-		photo?.height = 300;
+		photo?.width = stick?.width = 300;
+		photo?.height = stick?.height = 300;
 
-		return setInterval(() => {
+		return setInterval((scene) => {
 			ctx.drawImage(video, 0, 0, photo?.width, photo?.height);
-		},60);
+					_ctx.rect(100, 100, 100, 100);
+					_ctx.lineWidth = "6";
+					_ctx.strokeStyle = "red";
+					_ctx.stroke();
+				//	_ctx.drawImage(scene.src, 0, 0, stick.width, stick.height)
+
+		},30, inSceneElement);
 	};
 
 	function takeSnap () {
@@ -83,8 +94,6 @@ function Snapshot () {
 		const x = e.clientX - imagePos.left
 		const y = e.clientY - imagePos.top
 
-		console.log(document.getElementById(e.target.id))
-
 		setDraggedItem({
 			src: document.getElementById(e.target.id),
 			x,
@@ -92,18 +101,20 @@ function Snapshot () {
 		})
 	}
 
+
 	function endDragging (e) {
 		e.preventDefault()
 
 		if (draggedItem) {
-			const canvas = photoRef.current
+			const canvas = stickerRef.current
 			const canvasPos = canvas.getBoundingClientRect()
 
-			setInSceneElement([...inSceneElement,{
-				img: draggedItem.src,
+			setInSceneElement([...inSceneElement, {
+				img: draggedItem.src.src,
 				x: e.clientX - canvasPos.left - draggedItem.x,
 				y: e.clientY - canvasPos.top - draggedItem.y,
 			}])
+			console.log('Sticker -> ', inSceneElement)
 		}
 	}
 
@@ -122,11 +133,11 @@ function Snapshot () {
 					       onPlay={paintToCanvas}/>
 					<div className='relative h-[300px] items-center '>
 						<canvas ref={photoRef}
+						        className='absolute hidden left-2 iP7x:left-9 ip7p:left-14 top-0' />
+						<canvas ref={stickerRef}
 						        onDrop={endDragging}
 						        onDragOver={e => e.preventDefault()}
-						        className='absolute left-2 iP7x:left-9 ip7p:left-14 top-0' />
-						<canvas ref={stickerRef}
-						        className='absolute left-2 top-0' />
+						        className='absolute left-2 iP7x:left-9 ip7p:left-14 top-0 z-10' />
 					</div>
 					<div
 						onClick={takeSnap}
@@ -140,13 +151,12 @@ function Snapshot () {
 					{/* Filter Selector */}
 					<div className='flex bg-white mt-8 border-y border-gray-500 overflow-x-scroll'>
 						{
-							Object.keys(STICKERS).map(stickerId =>
-								<img id={stickerId}
-								     src={STICKERS[stickerId].default.src}
+							Object.keys(constant.STICKERS).map( (sticker) =>
+								<Image id={sticker}
+								     src={constant.STICKERS[sticker]}
 								     alt={'x'}
 								     draggable={true}
-								     onDragStart={startDragging} />
-							)
+								     onDragStart={startDragging} />)
 						}
 					</div>
 				</>

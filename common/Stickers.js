@@ -1,8 +1,17 @@
+import snowFlake from '/public/Stickers/Snowflake.png'
+import Fire from '/public/Stickers/Fire.png';
+import Sunglass from '/public/Stickers/Sunglass.png';
+import Vibes from '/public/Stickers/Vibes.png';
+
 const STICKERS = [
-	require('/public/Stickers/Snowflake.png'),
-	require('/public/Stickers/Fire.png'),
-	require('/public/Stickers/Sunglass.png'),
-	require('/public/Stickers/Vibes.png'),
+	snowFlake,
+	Fire,
+	Sunglass,
+	Vibes,
 ]
 
-export { STICKERS }
+const constant = {
+	STICKERS: STICKERS
+}
+
+export { STICKERS, constant }
