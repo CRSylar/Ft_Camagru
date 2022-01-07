@@ -4,6 +4,7 @@ import styles from '../styles/Feed.module.css';
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {CameraIcon} from "@heroicons/react/solid";
+import {STICKERS} from "../common/Stickers";
 
 function Snapshot () {
 
@@ -11,9 +12,11 @@ function Snapshot () {
 	const router = useRouter()
 	const videoRef = useRef(null)
 	const photoRef = useRef(null)
+	const stickerRef = useRef(null)
 	const testRef = useRef(null)
 	const [recentSnap, setRecentSnap] = useState([])
-
+	const [draggedItem, setDraggedItem] = useState(null)
+	const [inSceneElement, setInSceneElement] = useState([])
 
 	useEffect( () => {
 		if (!session)
@@ -27,8 +30,9 @@ function Snapshot () {
 	);
 
 	useEffect( () => {
-		setRecentSnap(session.recentSnap)
+		setRecentSnap(session?.recentSnap)
 	}, [])
+
 
 	const getVideo = () => {
 		navigator.mediaDevices
@@ -41,18 +45,17 @@ function Snapshot () {
 			.catch( e => console.log('Error : ', e))
 	}
 
-
 	const paintToCanvas = () => {
 		const video = videoRef.current;
 		const photo = photoRef.current;
-		const ctx = photo.getContext("2d");
+		const ctx = photo?.getContext("2d");
 
-		photo.width = 300;
-		photo.height = 300;
+		photo?.width = 300;
+		photo?.height = 300;
 
 		return setInterval(() => {
-			ctx.drawImage(video, 0, 0, photo.width, photo.height);
-		}, 50);
+			ctx.drawImage(video, 0, 0, photo?.width, photo?.height);
+		},60);
 	};
 
 	function takeSnap () {
@@ -71,9 +74,37 @@ function Snapshot () {
 		}
 	}
 
-
 	function chooseAndUpload (e) {
 		console.log('poi lo faro', e.target.src)
+	}
+
+	function startDragging (e) {
+		const imagePos = e.target.getBoundingClientRect()
+		const x = e.clientX - imagePos.left
+		const y = e.clientY - imagePos.top
+
+		console.log(document.getElementById(e.target.id))
+
+		setDraggedItem({
+			src: document.getElementById(e.target.id),
+			x,
+			y,
+		})
+	}
+
+	function endDragging (e) {
+		e.preventDefault()
+
+		if (draggedItem) {
+			const canvas = photoRef.current
+			const canvasPos = canvas.getBoundingClientRect()
+
+			setInSceneElement([...inSceneElement,{
+				img: draggedItem.src,
+				x: e.clientX - canvasPos.left - draggedItem.x,
+				y: e.clientY - canvasPos.top - draggedItem.y,
+			}])
+		}
 	}
 
 	return (
@@ -83,16 +114,23 @@ function Snapshot () {
 			<main className={`${styles.feed} ${!session && "!grid-cols-1 !max-w-3xl"}`}>
 			{/* Main section with camera preview */}
 			{/*  <Camera />  */}
-				<section className='col-span-2 mt-8 flex items-center space-x-2 flex-col'>
+				<section className='col-span-2 mt-8 flex flex-col'>
 			{
 				<>
 					<video ref={videoRef}
 					       className='hidden'
-					       onCanPlay={paintToCanvas}/>
-					<canvas ref={photoRef}/>
+					       onPlay={paintToCanvas}/>
+					<div className='relative h-[300px] items-center '>
+						<canvas ref={photoRef}
+						        onDrop={endDragging}
+						        onDragOver={e => e.preventDefault()}
+						        className='absolute left-2 iP7x:left-9 ip7p:left-14 top-0' />
+						<canvas ref={stickerRef}
+						        className='absolute left-2 top-0' />
+					</div>
 					<div
 						onClick={takeSnap}
-						className='mx-auto flex mt-6 items-center justify-center h-12 w-12 rounded-full
+						className='mx-auto flex mt-5 items-center justify-center h-12 w-12 rounded-full
 																		bg-blue-100 cursor-pointer'  >
 						<CameraIcon
 							className='h-6 w-6 text-blue-600'
@@ -100,6 +138,17 @@ function Snapshot () {
 					</div>
 
 					{/* Filter Selector */}
+					<div className='flex bg-white mt-8 border-y border-gray-500 overflow-x-scroll'>
+						{
+							Object.keys(STICKERS).map(stickerId =>
+								<img id={stickerId}
+								     src={STICKERS[stickerId].default.src}
+								     alt={'x'}
+								     draggable={true}
+								     onDragStart={startDragging} />
+							)
+						}
+					</div>
 				</>
 			}
 				</section>
@@ -109,12 +158,12 @@ function Snapshot () {
 					<div className='bg-gray-100 items-center flex-col flex py-2
 						h-screen overflow-y-scroll scrollbar-thin scrollbar-thumb-black'>
 						<p className='font-bold text-lg text-center text-blue-400' >{'Recent Snap'}</p>
-						{ recentSnap &&
-							recentSnap.map( snap => (
+						{ recentSnap?.length > 0 &&
+							recentSnap.map( snap =>
 								<img className='object-contain mt-2'
 								     onClick={chooseAndUpload}
 								     key={snap.key} src={snap.data} alt={'recent'}/>
-							))
+							)
 						}
 						<canvas ref={testRef} className='hidden'/>
 					</div>
