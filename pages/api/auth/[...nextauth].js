@@ -56,7 +56,7 @@ export default NextAuth({
 		},
 
 		async session({session, token }) {
-
+			session.recentSnap = new Array(0);
 			if (session.user.name || session.user.image) {
 				let q = query(collection(db, 'users'),
 					where('email', '==', session.user.email))
