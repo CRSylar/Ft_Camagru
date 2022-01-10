@@ -28,10 +28,10 @@ function Header () {
 			<div className={styles.header}>
 				{/* Left element / LOGO */}
 				<div className={styles.header__bigLogo} onClick={ () => router.push('/')}>
-					<Image alt={<CameraIcon/>} src={logoBig} layout={'fill'} className='object-contain layout-fill'/>
+					<Image alt={<CameraIcon/>} src={logoBig} priority={true} layout={'fill'} className='object-contain layout-fill'/>
 				</div>
 				<div className={styles.header__smLogo} onClick={ () => router.push('/')}>
-					<Image alt={<CameraIcon/>} src={logoSm} layout={'fill'} className='object-contain layout-fill'/>
+					<Image alt={<CameraIcon/>} src={logoSm} priority={true} layout={'fill'} className='object-contain layout-fill'/>
 				</div>
 
 				{/* Middle / SearchBox */}
