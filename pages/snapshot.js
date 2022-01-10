@@ -3,9 +3,6 @@ import Header from "../components/Header";
 import styles from '../styles/Feed.module.css';
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
-import {CameraIcon} from "@heroicons/react/solid";
-import Image from "next/image";
-import {constant} from "../common/Stickers";
 import SnapSticker from "../components/SnapSticker";
 import RecentSnap from "../components/RecentSnap";
 
@@ -13,7 +10,6 @@ function Snapshot () {
 
 	const {data: session} = useSession()
 	const router = useRouter()
-	const testRef = useRef(null)
 	const [recentSnap, setRecentSnap] = useState([])
 
 	useEffect( () => {

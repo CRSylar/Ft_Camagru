@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useSession} from "next-auth/react";
-import {useRouter} from "next/router";
 import {CameraIcon} from "@heroicons/react/solid";
 import Image from "next/image";
 import {constant} from "../common/Stickers";
@@ -8,7 +7,6 @@ import {constant} from "../common/Stickers";
 function SnapSticker ({recent, setRecent}) {
 
 	const {data: session} = useSession()
-	const router = useRouter()
 	const videoRef = useRef(null)
 	const photoRef = useRef(null)
 	const stickerRef = useRef(null)
@@ -48,9 +46,6 @@ function SnapSticker ({recent, setRecent}) {
 		const video = videoRef.current
 		const stickerCanvas = stickerRef.current
 		const canvas = testRef.current
-
-		canvas.width = 150;
-		canvas.height = 150;
 
 		if (video && canvas) {
 			const ctx = canvas.getContext('2d')
@@ -95,6 +90,7 @@ function SnapSticker ({recent, setRecent}) {
 
 	return (
 		<>
+			{/* Camera Section */}
 			<video ref={videoRef}
 			       className='hidden'
 			       onPlay={paintToCanvas}/>
@@ -107,7 +103,7 @@ function SnapSticker ({recent, setRecent}) {
 				        onDrop={endDragging}
 				        onDragOver={e => e.preventDefault()}
 				        className='absolute left-0 top-0 right-0 mr-auto ml-auto w-[300px] z-10' />
-				<canvas ref={testRef} className='hidden'/>
+				<canvas ref={testRef} width={150} height={150} className='hidden'/>
 			</div>
 			<div
 				onClick={takeSnap}

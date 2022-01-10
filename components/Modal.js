@@ -1,4 +1,4 @@
-import {Fragment, useRef, useState} from 'react';
+import {Fragment, useEffect, useRef, useState} from 'react';
 import {useRecoilState} from "recoil";
 import {modalState} from "../atoms/modalAtom";
 import { Dialog, Transition } from "@headlessui/react";
@@ -10,7 +10,7 @@ import {useSession} from "next-auth/react";
 import { ref, getDownloadURL, uploadString} from 'firebase/storage';
 import {useRouter} from "next/router";
 
-function Modal () {
+function Modal ({selection}) {
 
 	const router = useRouter()
 	const {data: session} = useSession()
@@ -19,6 +19,13 @@ function Modal () {
 	const [loading, setLoading] = useState(null)
 	const filePickerRef = useRef(null)
 	const captionRef = useRef(null)
+
+	useEffect( () => {
+		if (selection){
+			setSelectedFile(selection)
+		}
+	}
+	,[selection])
 
 	const uploadPost = async () => {
 		if (loading) return

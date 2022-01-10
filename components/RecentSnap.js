@@ -1,8 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {useRecoilState} from "recoil";
+import {modalState} from "../atoms/modalAtom";
+import Modal from "./Modal";
 
 function RecentSnap ({recentSnap}) {
 
+	const [open, setOpen] = useRecoilState(modalState)
+	const [selection, setSelection] = useState(null)
+
 	function chooseAndUpload (e) {
+		setSelection(e.target.src)
+		setOpen(true)
 		console.log('poi lo faro', e.target.src)
 	}
 
@@ -16,7 +24,7 @@ function RecentSnap ({recentSnap}) {
 				     onClick={chooseAndUpload}
 				     key={snap.key} src={snap.data} alt={'recent'}/>
 			)}
-
+			<Modal selection={selection}/>
 		</div>
 	);
 }
