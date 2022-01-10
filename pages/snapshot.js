@@ -23,11 +23,11 @@ function Snapshot () {
 	}, [])
 
 	return (
-		<div className='bg-gray-50 h-screen overflow-y-scroll'>
+		<div className='bg-gray-50 h-screen'>
 			<Header/>
 
 			<main className={`${styles.feed} ${!session && "!grid-cols-1 !max-w-3xl"}`}>
-				<section className='col-span-2 mt-8 flex flex-col'>
+				<section className='col-span-2 pt-4'>
 					{/* Main section with camera preview */}
 					<SnapSticker recent={recentSnap} setRecent={setRecentSnap}/>
 				</section>

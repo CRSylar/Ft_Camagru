@@ -15,8 +15,8 @@ function RecentSnap ({recentSnap}) {
 	}
 
 	return (
-		<div className='bg-gray-100 items-center flex-col flex py-2
-						h-screen overflow-y-scroll scrollbar-thin scrollbar-thumb-black'>
+		<div className='bg-gray-100 items-center flex-col flex h-[85vh]
+						overflow-y-scroll scrollbar-thin scrollbar-thumb-black'>
 			<p className='font-bold text-lg text-center text-blue-400' >{'Recent Snap'}</p>
 			{ recentSnap?.length > 0 &&
 			recentSnap.map( snap =>
