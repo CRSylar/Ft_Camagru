@@ -126,13 +126,13 @@ function Snapshot () {
 					       onPlay={paintToCanvas}/>
 					<div className='relative h-[300px] items-center '>
 						<canvas ref={photoRef}
-						        className='absolute left-2 iP7x:left-9 ip7p:left-14 top-0' />
+						        className='absolute left-0 top-0 right-0 mr-auto ml-auto w-[300px]' />
 						<canvas ref={stickerRef}
 						        width={'300px'}
 						        height={'300px'}
 						        onDrop={endDragging}
 						        onDragOver={e => e.preventDefault()}
-						        className='absolute left-2 iP7x:left-9 ip7p:left-14 top-0 z-10' />
+						        className='absolute left-0 top-0 right-0 mr-auto ml-auto w-[300px] z-10' />
 					</div>
 					<div
 						onClick={takeSnap}
@@ -144,20 +144,22 @@ function Snapshot () {
 					</div>
 
 					{/* Filter Selector */}
-					<div className='flex bg-white mt-8 border-y border-gray-500 overflow-x-scroll'>
+					<div className='flex bg-white mt-8 border-y border-gray-300 overflow-x-scroll'>
 						{
 							Object.keys(constant.STICKERS).map( (sticker) =>
 								<Image id={sticker}
-								     src={constant.STICKERS[Number(sticker)]}
-								     alt={'x'}
-								     draggable={"true"}
-								     onDragStart={startDragging} />)
+								       width={'150px'}
+								       height={'150px'}
+								       src={constant.STICKERS[Number(sticker)]}
+								       alt={'x'}
+								       draggable={"true"}
+								       onDragStart={startDragging} />)
 						}
 					</div>
 				</>
 			}
 				</section>
-				<section className='lg:inline-grid md:col-span-1 border-l'>
+				<section className='lg:inline-grid md:col-span-1 border-l ml-10'>
 					{/* APP bar laterale con gli snap scattati e non inviati in questa session(?) */}
 
 					<div className='bg-gray-100 items-center flex-col flex py-2
