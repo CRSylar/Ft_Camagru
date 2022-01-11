@@ -1,12 +1,10 @@
 import React, {useState} from 'react';
 import { useForm } from 'react-hook-form';
 import { InformationCircleIcon } from "@heroicons/react/outline";
-import { Transition } from "@headlessui/react";
 import styles from '../styles/index.module.css';
 import {
 	createUserWithEmailAndPassword,
 	sendEmailVerification, signInWithEmailAndPassword,
-	updateProfile,
 } from "firebase/auth";
 import {auth, db} from "../firebase";
 import {signIn} from "next-auth/react";

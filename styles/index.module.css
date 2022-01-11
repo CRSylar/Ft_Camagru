@@ -40,7 +40,7 @@
 }
 
 .sing__passField {
-    @apply block pl-10 mt-2 rounded-lg
+    @apply block pr-10 mt-2 rounded-lg
 }
 
 .popover__content {

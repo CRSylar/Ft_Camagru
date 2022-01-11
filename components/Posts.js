@@ -43,7 +43,7 @@ function Posts ({filter}) {
 					userMail={post.data().email}
 					img={post.data().image}
 					caption={post.data().caption}
-					mine={filter === session.user.username}/>
+					mine={session? filter === session.user.username: false}/>
 				))
 			}
 		</div>
