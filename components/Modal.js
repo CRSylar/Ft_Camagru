@@ -53,6 +53,7 @@ function Modal ({selection}) {
 		setOpen(false)
 		setLoading(false)
 		setSelectedFile(null)
+		router.push('/')
 	}
 
 	const addImageToPost = (e) => {

@@ -11,7 +11,7 @@ function RecentSnap ({recentSnap}) {
 	function chooseAndUpload (e) {
 		setSelection(e.target.src)
 		setOpen(true)
-		console.log('poi lo faro', e.target.src)
+
 	}
 
 	return (
@@ -22,6 +22,8 @@ function RecentSnap ({recentSnap}) {
 			{ recentSnap?.length > 0 &&
 			recentSnap.map( snap =>
 				<img className='object-contain mt-2'
+				     width={200}
+				     height={200}
 				     onClick={chooseAndUpload}
 				     key={snap.key} src={snap.data} alt={'recent'}/>
 			)}

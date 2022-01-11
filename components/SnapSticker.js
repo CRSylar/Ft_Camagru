@@ -69,7 +69,6 @@ function SnapSticker ({recent, setRecent}) {
 		})
 	}
 
-
 	function endDragging (e) {
 		e.preventDefault()
 
@@ -103,7 +102,7 @@ function SnapSticker ({recent, setRecent}) {
 				        onDrop={endDragging}
 				        onDragOver={e => e.preventDefault()}
 				        className='absolute left-0 top-0 right-0 mr-auto ml-auto w-[300px] z-10' />
-				<canvas ref={testRef} width={150} height={150} className='hidden'/>
+				<canvas ref={testRef} width={800} height={800} className='hidden'/>
 			</div>
 			<div
 				onClick={takeSnap}
