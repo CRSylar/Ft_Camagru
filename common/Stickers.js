@@ -12,10 +12,8 @@ const STICKERS = [
 	Sunglass,
 	Vibes,
 	Baloon,
-/*
 	Cocktail,
 	Vibe_2,
-	*/
 ]
 
 const constant = {

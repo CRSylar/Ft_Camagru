@@ -3,7 +3,6 @@ import {useSession} from "next-auth/react";
 import {CameraIcon} from "@heroicons/react/solid";
 import Image from "next/image";
 import {constant} from "../common/Stickers";
-import Baloon from '/public/Stickers/Baloon.png';
 
 function SnapSticker ({recent, setRecent}) {
 
@@ -117,18 +116,19 @@ function SnapSticker ({recent, setRecent}) {
 
 			{/* Filter Selector */}
 			<div className='flex bg-white mt-8 border-y border-gray-300 overflow-x-scroll scrollbar-thin
-    scrollbar-thumb-black'>
+    scrollbar-thumb-gray-200'>
 				{
 					Object.keys(constant.STICKERS).map( (sticker) => (
-						<div className=' h-[150px] w-[150px] overflow-x-auto overflow-y-hidden '>
+						<div className='h-[150px] w-[150px]'>
 							<Image id={sticker}
-						       key={sticker}
-						       width={150}
-						       height={150}
-						       src={constant.STICKERS[Number(sticker)]}
-						       alt={'x'}
-						       draggable={"true"}
-						       onDragStart={startDragging}/>
+							       layout={"fixed"}
+							       key={sticker}
+							       width={150}
+							       height={150}
+							       src={constant.STICKERS[Number(sticker)]}
+							       alt={'x'}
+							       draggable={"true"}
+							       onDragStart={startDragging}/>
 						</div>
 					))
 				}

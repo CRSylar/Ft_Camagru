@@ -31,7 +31,7 @@ function Snapshot () {
 					{/* Main section with camera preview */}
 					<SnapSticker recent={recentSnap} setRecent={setRecentSnap}/>
 				</section>
-				<section className='lg:inline-grid md:col-span-1 border-l ml-10'>
+				<section className='lg:inline-grid md:col-span-1 lg:border-l lg:ml-10'>
 					{/* APP bar laterale con gli snap scattati e non inviati in questa session(?) */}
 					<RecentSnap recentSnap={recentSnap} />
 				</section>

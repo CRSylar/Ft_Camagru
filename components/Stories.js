@@ -22,7 +22,7 @@ function Stories() {
 	}, [])
 
 	return (
-		<div className={styles.stories}>
+		<div className={`${styles.stories} scrollbar-thumb-gray-200`}>
 			{ session && (
 				 <Story
 					 username={session?.user?.username}
