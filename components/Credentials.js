@@ -66,7 +66,7 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 
 	return (
 		<div>
-				<Transition
+				{/*<Transition
 					className='border max-w-[100px] mt-15 mr-3 bg-blue-300 text-sm'
 					show={open}
 					enter="transition-opacity duration-100"
@@ -75,9 +75,8 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 					leave="transition-opacity duration-75"
 					leaveFrom="opacity-100"
 					leaveTo="opacity-0"
-				>
-					{'Strong Password is at Least : 8 characters, 1 Capital, 1 Symbol, 1 Number'}
-				</Transition>
+				>*/}
+				{/*</Transition>*/}
 			<form
 				className='mt-1 flex flex-col max-w-xs'
 				onSubmit={handleSubmit(onSubmit)}>
@@ -89,11 +88,14 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 				<input className='mt-2 rounded-lg' type="email" placeholder="Email" {...register("email", {required: true})} />
 				<div className='max-w-xs flex flex-row'>
 					<div className='mt-1 relative'>
-						<div className='absolute inset-y-0 pl-3 flex items-center'>
+						<div className='absolute inset-y-0 left-[180px] pl-3 flex items-center'>
 							<InformationCircleIcon
 								className='h-5 w-5 mt-2 text-gray-500 hover:text-blue-500'
 								onClick={ () => setOpen( (open) => !open)}
 							/>
+							<div className={`${!open ? 'hidden':'block'} ${styles.popover__content}`}>
+									{'Strong Password is at Least : 8 characters, 1 Capital, 1 Symbol, 1 Number'}
+							</div>
 						</div>
 						<input className={styles.sing__passField} type="password" placeholder="Password"
 						       {...register("password", {required: 'Password is required',
