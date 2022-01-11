@@ -18,8 +18,7 @@ function Suggestions () {
 	}, [])
 
 	function handleFollow (id) {
-		console.log(auth.currentUser)
-
+		console.log(id)
 	}
 
 	return (
@@ -40,7 +39,7 @@ function Suggestions () {
 							<h3 className='text-xs text-gray-400' >{`Work at ${profile.company.name}`}</h3>
 						</div>
 						<button className='text-blue-400 text-bold text-xs'
-						        onClick={() => handleFollow(profile.id)}>
+						        onClick={() => handleFollow(profile.username)}>
 							{'Follow'}
 						</button>
 					</div>

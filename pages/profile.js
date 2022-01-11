@@ -24,6 +24,9 @@ function Profile () {
 
 			<main className={`${styles.feed} ${!session && "!grid-cols-1 !max-w-3xl"}`}>
 				<section className='col-span-2'>
+				<div className='font-semibold mt-5 text-center border bg-white'>
+					{`${session.user.username}\'s Posts`}
+				</div>
 					<Posts filter={session?.user.username}/>
 				</section>
 			</main>
