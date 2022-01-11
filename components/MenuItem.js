@@ -4,6 +4,7 @@ import {signOut} from "next-auth/react";
 import {useRouter} from "next/router";
 import {useRecoilState} from "recoil";
 import {modalState} from "../atoms/modalAtom";
+import styles from '../styles/Menu.module.css';
 
 function MenuItem () {
 
@@ -16,18 +17,24 @@ function MenuItem () {
 	}
 
 	return (
-		<div>
+		<div className='relative'>
 			<MenuIcon className='h-6 md:hidden cursor-pointer '
 			          onClick={menuHandler}/>
-			<ul className={`${openMenu? 'hidden': 'block' } border border-gray-300 rounded-lg`}>
-				<li className='my-2'>
-					<PlusCircleIcon onClick={() => setOpen(true)}/>
+			<ul className={`${openMenu? 'hidden': 'block' } ${styles.menu__list}`}>
+				<li>
+					<PlusCircleIcon className='w-5 -mt-3 mb-2'
+						onClick={() => {
+							setOpenMenu((openMenu) => !openMenu)
+							setOpen(true)
+						}}/>
 				</li>
-				<li className='my-2'>
-					<CogIcon onClick={ () => router.push('/settings')}/>
+				<li>
+					<CogIcon className='w-5 mb-2'
+					         onClick={ () => router.push('/settings')}/>
 				</li>
-				<li className='my-2'>
-					<LogoutIcon onClick={() => signOut({redirect:false})} />
+				<li>
+					<LogoutIcon className='w-5 -mb-3 ml-0.5'
+					            onClick={() => signOut({redirect:false})} />
 				</li>
 			</ul>
 		</div>
