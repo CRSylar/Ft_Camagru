@@ -8,14 +8,14 @@ import RecentSnap from "../components/RecentSnap";
 
 function Snapshot () {
 
-	const {data: session} = useSession()
+	const {data: session, status} = useSession()
 	const router = useRouter()
 	const [recentSnap, setRecentSnap] = useState([])
 
 	useEffect( () => {
-		if (!session)
+		if (!session && status !== 'loading')
 			router.push('/auth/signin')
-	}, [session]
+	}, [session, status]
 	)
 
 	useEffect( () => {

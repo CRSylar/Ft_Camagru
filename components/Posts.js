@@ -2,13 +2,15 @@ import React, {useEffect, useState} from 'react';
 import {collection, onSnapshot, orderBy, query, where} from 'firebase/firestore';
 import Post from "./Post";
 import {db} from "../firebase";
+import {useSession} from "next-auth/react";
 
 function Posts ({filter}) {
 
 	const [posts, setPosts] = useState([])
+	const {data: session} = useSession()
 
 	useEffect( () => {
-		if (filter) {
+			if (filter) {
 			return onSnapshot(
 				query(collection(db, 'posts'),
 					where('username', '==', filter),
@@ -27,7 +29,7 @@ function Posts ({filter}) {
 				}
 			)
 		},
-		[db]
+		[db, filter]
 	)
 
 	return (
@@ -41,7 +43,7 @@ function Posts ({filter}) {
 					userMail={post.data().email}
 					img={post.data().image}
 					caption={post.data().caption}
-					mine={filter}/>
+					mine={filter === session.user.username}/>
 				))
 			}
 		</div>

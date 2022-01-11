@@ -8,13 +8,13 @@ import SettingsManager from "../components/SettingsManager";
 
 function Settings () {
 
-	const {data: session} = useSession()
+	const {data: session, status} = useSession()
 	const router = useRouter()
 
 	useEffect( () => {
-		if (!session)
+		if (!session && status !== 'loading')
 			router.push('/auth/singin')
-	}, [session])
+	}, [session, status])
 
 	return (
 		<div className='bg-gray-50 h-screen overflow-y-scroll'>

@@ -62,7 +62,7 @@ function Header () {
 							<LogoutIcon className='navBtn'
 							            onClick={() => signOut({redirect:false})}  />
 							<img
-								onClick={ () => router.push('/profile')}
+								onClick={ () => router.push(`/profile/${session.user.username}`)}
 								src={session?.user?.proPic}
 								alt={'profile pic'} className='h-10 w-10 hidden md:block rounded-full cursor-pointer'/>
 						</>
