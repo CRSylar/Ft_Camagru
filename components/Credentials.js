@@ -18,6 +18,7 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 	const alert = useAlert()
 	const { register, handleSubmit, reset, formState: { errors } } = useForm();
 	const [open, setOpen] = useState(false)
+	const [loginErr, setLoginErr] = useState(false)
 	const router = useRouter()
 
 	const onSubmit = data => {
@@ -33,10 +34,13 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 			email: data.email,
 			password: data.password,
 		})
-		if (res?.error)
+		if (res?.error){
 			console.log('Error => ', res.error)
+			setLoginErr(true)
+		}
 		else {
 			reset()
+			setLoginErr(false)
 			await signInWithEmailAndPassword(auth, data.email, data.password)
 			await router.push('/')
 		}
@@ -64,17 +68,6 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 
 	return (
 		<div>
-				{/*<Transition
-					className='border max-w-[100px] mt-15 mr-3 bg-blue-300 text-sm'
-					show={open}
-					enter="transition-opacity duration-100"
-					enterFrom="opacity-0"
-					enterTo="opacity-100"
-					leave="transition-opacity duration-75"
-					leaveFrom="opacity-100"
-					leaveTo="opacity-0"
-				>*/}
-				{/*</Transition>*/}
 			<form
 				className='mt-1 flex flex-col max-w-xs'
 				onSubmit={handleSubmit(onSubmit)}>
@@ -107,6 +100,7 @@ function Credentials ({firstTime, setFirstTime, csrfToken}) {
 					{firstTime ? 'SignUp' : 'Sign In'}
 				</button>
 			</form>
+			{loginErr && <p className={styles.errorMsg}>{'Username & | password errate'}</p>}
 			<p className='mt-5 text-blue-400'
 			   onClick={() => setFirstTime( firstTime => !firstTime)}>
 				{firstTime ? 'Already Registered? SignIn' : 'First Time? SignUp'}
