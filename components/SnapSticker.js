@@ -12,11 +12,20 @@ function SnapSticker ({recent, setRecent}) {
 	const stickerRef = useRef(null)
 	const testRef = useRef(null)
 	const [draggedItem, setDraggedItem] = useState(null)
+	let mStream = null
 
 	useEffect(() => {
 			getVideo();
 		}, [videoRef]
 	);
+
+	useEffect( () => {
+		return () => {
+			if (mStream)
+			mStream.getTracks()
+				.forEach( track => track.stop())
+		}
+	}, [])
 
 	const getVideo = () => {
 		navigator.mediaDevices
@@ -24,6 +33,7 @@ function SnapSticker ({recent, setRecent}) {
 			.then( stream => {
 				let video = videoRef.current
 				video.srcObject = stream
+				mStream = stream
 				video.play()
 			})
 			.catch( e => console.log('Error : ', e))
@@ -117,14 +127,14 @@ function SnapSticker ({recent, setRecent}) {
 			<div className='flex bg-white mt-8 border-y border-gray-300 overflow-x-scroll scrollbar-thin
     scrollbar-thumb-gray-200'>
 				{
-					Object.keys(constant.STICKERS).map( (sticker) => (
-						<div className='h-[150px] w-[150px]'>
+					Object.keys(constant.STICKERS).map( (sticker, index) => (
+						<div className='h-[150px] w-[150px]' key={index}>
 							<Image id={sticker}
 							       layout={"fixed"}
-							       key={sticker}
+							       key={index}
 							       width={150}
 							       height={150}
-							       src={constant.STICKERS[Number(sticker)]}
+							       src={constant.STICKERS[index]}
 							       alt={'x'}
 							       draggable={"true"}
 							       onDragStart={startDragging}/>
