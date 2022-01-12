@@ -13,11 +13,13 @@ import {
 import {db} from "../firebase";
 import {useSession} from "next-auth/react";
 import {mArrayRemove} from "../common/Utils";
+import {useRouter} from "next/router";
 
 function Suggestions () {
 
 	const [suggestions, setSuggestions] = useState([])
 	const [following, setFollowing] = useState([])
+	const router = useRouter()
 	const {data: session } = useSession()
 
 	useEffect( () => {
@@ -66,9 +68,11 @@ function Suggestions () {
 			{
 				suggestions.map( profile => (
 					<div key={profile.username} className='flex items-center justify-between mt-3'>
-						 <img className='w-10 h-10 p-[2px] border rounded-full'
+						 <img className='w-10 h-10 p-[2px] border rounded-full cursor-pointer'
 						      src={profile.proPic}
-						      alt={'profile avatar'}  />
+						      alt={'profile avatar'}
+						      onClick={ () => router.push(`/profile/${profile.username}`)}
+						 />
 						<div className='flex-1 ml-4'>
 							<h2 className='font-semibold text-sm' >{profile.username}</h2>
 							<h3 className='text-xs text-gray-400' >{`Work at ${profile.company}`}</h3>
