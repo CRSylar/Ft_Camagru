@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
 	BookmarkIcon,
-	DotsHorizontalIcon,
 	EmojiHappyIcon,
 	HeartIcon,
 	TrashIcon
@@ -24,6 +23,7 @@ import styles from '../styles/Post.module.css';
 import Moment from "react-moment";
 import ConfirmModal from "./ConfirmModal";
 import axios from "axios";
+import Share from "./Share";
 
 function Post ({id, username, userImg, userMail, img, caption, mine}) {
 
@@ -104,7 +104,7 @@ function Post ({id, username, userImg, userMail, img, caption, mine}) {
 				{mine && <TrashIcon className='h-5 mr-3'
 				                    onClick={() => setOpenConfirm(true)} />}
 				<ConfirmModal isOpen={openConfirm} setIsOpen={setOpenConfirm} id={id}/>
-				<DotsHorizontalIcon className='h-5'/>
+				<Share url={img}/>
 			</div>
 			{/* img */}
 			<img

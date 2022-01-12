@@ -33,7 +33,6 @@ function Suggestions () {
 			(doc) =>
 				suggestions.push(doc.data())
 			)
-
 		setSuggestions(suggestions)
 	}, [])
 
@@ -64,7 +63,6 @@ function Suggestions () {
 			<div className='flex justify-between text-sm mb-5'>
 				<h3 className='text-sm font-bold text-gray-400'>{'Suggestions for you'}</h3>
 			</div>
-
 			{
 				suggestions.map( profile => (
 					<div key={profile.username} className='flex items-center justify-between mt-3'>
@@ -86,7 +84,6 @@ function Suggestions () {
 					</div>
 				))
 			}
-
 		</div>
 	);
 }
