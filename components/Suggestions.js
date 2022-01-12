@@ -75,7 +75,7 @@ function Suggestions () {
 						</div>
 						<button className='text-blue-400 text-bold text-xs'
 						         onClick={() => handleFollow(profile.email)}>
-							{following.includes( profile.email) ?
+							{following?.includes( profile.email) ?
 								'UnFollow'
 							:
 								'Follow'

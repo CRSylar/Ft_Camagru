@@ -5,6 +5,7 @@ import bgLogo from '../../public/Camagru.png';
 import Image from "next/image";
 import Credentials from "../../components/Credentials";
 import SignUp from "../../components/SignUp";
+import Footer from "../../components/Footer";
 
 function Signin ( {providers, csrfToken} ) {
 
@@ -13,9 +14,9 @@ function Signin ( {providers, csrfToken} ) {
 	return (
 		<>
 			<Header/>
-			<div className='flex flex-col items-center justify-center min-h-screen py-2 text-center -mt-26 px-14 '>
+			<div className='flex flex-col items-center justify-center py-2 text-center tall:-mt-10'>
 				<Image
-					className='w-80 z-20'
+					className='z-20'
 					src={bgLogo} alt={'App logo'}/>
 				{ firstTime ?
 					(
@@ -41,6 +42,9 @@ function Signin ( {providers, csrfToken} ) {
 							<Credentials firstTime={firstTime} setFirstTime={setFirstTime} token={csrfToken}/>
 						</>)
 				}
+			</div>
+			<div className='tall:absolute tall:bottom-0 tall:inset-x-0'>
+				<Footer/>
 			</div>
 		</>
 	);

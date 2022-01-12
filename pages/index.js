@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Header from "../components/Header";
 import Feed from "../components/Feed";
 import Modal from "../components/Modal";
+import Footer from "../components/Footer";
 
 export default function Home() {
   return (
@@ -15,6 +16,8 @@ export default function Home() {
       {/* Feed */}
       <Feed/>
 
+      {/* Footer */}
+      <Footer/>
       {/* Modal */}
       <Modal/>
     </div>

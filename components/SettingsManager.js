@@ -92,7 +92,7 @@ function SettingsManager () {
 				<Switch checked={enabled}
 				        onChange={toggleNotification}
 				        className={`${enabled? 'bg-blue-400' : 'bg-gray-200'} 
-			          relative inline-flex items-center h-6 rounded-full w-11`}
+			          relative mb-2 inline-flex items-center h-6 rounded-full w-11`}
 				>
 					<span className='sr-only'>{'Email Notification ?'}</span>
 					<span className={`${enabled? 'translate-x-6' : 'translate-x-1'}

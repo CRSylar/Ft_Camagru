@@ -5,6 +5,7 @@ import {useRouter} from "next/router";
 import Modal from "../components/Modal";
 import ProfilePic from "../components/ProfilePic";
 import SettingsManager from "../components/SettingsManager";
+import Footer from "../components/Footer";
 
 function Settings () {
 
@@ -27,6 +28,9 @@ function Settings () {
 			{/* Settings Management */}
 			<SettingsManager/>
 
+			<div className='tall:absolute tall:bottom-0 tall:inset-x-0'>
+				<Footer/>
+			</div>
 			<Modal/>
 		</div>
 	);

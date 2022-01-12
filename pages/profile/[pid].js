@@ -5,6 +5,7 @@ import {useSession} from "next-auth/react";
 import styles from "../../styles/Feed.module.css";
 import {useRouter} from "next/router";
 import Modal from "../../components/Modal";
+import Footer from "../../components/Footer";
 
 function Profile () {
 
@@ -32,6 +33,9 @@ function Profile () {
 				</section>
 			</main>
 
+			<div className='tall:absolute tall:bottom-0 tall:inset-x-0' >
+				<Footer/>
+			</div>
 			<Modal/>
 		</div>
 	);

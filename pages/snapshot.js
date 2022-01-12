@@ -5,6 +5,7 @@ import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import SnapSticker from "../components/SnapSticker";
 import RecentSnap from "../components/RecentSnap";
+import Footer from "../components/Footer";
 
 function Snapshot () {
 
@@ -36,7 +37,10 @@ function Snapshot () {
 					<RecentSnap recentSnap={recentSnap} />
 				</section>
 			</main>
-			{/* Footer (ma che davero? subject dice si) */}
+			{/* Footer */}
+			<div className='tall:absolute tall:bottom-0 tall:inset-x-0'>
+				<Footer/>
+			</div>
 		</div>
 	);
 }

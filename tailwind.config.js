@@ -4,7 +4,11 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'tall' : { 'raw': '(min-height: 800px)' }
+      }
+    },
     screens: {
       'sm': '640px',
       // => @media (min-width: 640px) { ... }
