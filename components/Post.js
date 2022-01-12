@@ -104,7 +104,7 @@ function Post ({id, username, userImg, userMail, img, caption, mine}) {
 				{mine && <TrashIcon className='h-5 mr-3'
 				                    onClick={() => setOpenConfirm(true)} />}
 				<ConfirmModal isOpen={openConfirm} setIsOpen={setOpenConfirm} id={id}/>
-				<Share url={img}/>
+				{session && ( <Share url={img}/> )}
 			</div>
 			{/* img */}
 			<img
