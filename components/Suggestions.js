@@ -48,14 +48,14 @@ function Suggestions () {
 			await updateDoc(doc(db, 'users', q), {
 				following: arrayRemove(id)
 			})
-			session?.user?.following = mArrayRemove(session?.user?.following, id)
+			session.user.following = mArrayRemove(session?.user?.following, id)
 			await setFollowing(session?.user.following)
 		}
-		else {
+		else if (session){
 			await updateDoc(doc(db, 'users', q), {
 				following: arrayUnion(id)
 			})
-			session?.user?.following = [...session?.user?.following, id]
+			session.user.following = [...session?.user?.following, id]
 			await setFollowing(session?.user.following)
 		}
 	}
