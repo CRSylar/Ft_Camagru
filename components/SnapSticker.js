@@ -42,14 +42,16 @@ function SnapSticker ({recent, setRecent}) {
 	const paintToCanvas = () => {
 		const video = videoRef.current;
 		const photo = photoRef.current;
-		const ctx = photo?.getContext("2d");
 
-		photo?.width  = 300;
-		photo?.height = 300;
+		if (video && photo) {
+			const ctx = photo.getContext("2d");
+			photo.width  = 300;
+			photo.height = 300;
 
-		return setInterval(() => {
-			ctx.drawImage(video, 0, 0, photo?.width, photo?.height);
-		},30);
+			return setInterval(() => {
+				ctx.drawImage(video, 0, 0, photo.width, photo.height);
+				},30);
+		}
 	};
 
 	function takeSnap () {
