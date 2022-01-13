@@ -44,7 +44,8 @@ function Suggestions () {
 		const querySnap = await getDocs(q)
 		querySnap.forEach( doc => q = doc.id)
 
-		if (session?.user?.following.includes(id)) {
+		if (session && session.user.following.length > 0 &&
+			session.user.following.includes(id)) {
 			await updateDoc(doc(db, 'users', q), {
 				following: arrayRemove(id)
 			})
@@ -55,7 +56,10 @@ function Suggestions () {
 			await updateDoc(doc(db, 'users', q), {
 				following: arrayUnion(id)
 			})
-			session.user.following = [...session?.user?.following, id]
+			if (session.user.following.length > 0)
+				session.user.following = [...session?.user?.following, id]
+			else
+				session.user.following = id
 			await setFollowing(session?.user.following)
 		}
 	}

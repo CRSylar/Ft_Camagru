@@ -71,6 +71,7 @@ export default NextAuth({
 						proPic: session.user.image,
 						email: session.user.email,
 						notification: true,
+						following: [],
 					})
 					const docSnap = await getDoc(newUserDoc)
 					session.user = docSnap.data()
