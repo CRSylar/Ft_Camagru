@@ -3,9 +3,11 @@ import {collection, onSnapshot, orderBy, query, where} from 'firebase/firestore'
 import Post from "./Post";
 import {db} from "../firebase";
 import {useSession} from "next-auth/react";
+import {useRouter} from "next/router";
 
 function Posts ({filter}) {
 
+	const router = useRouter()
 	const [posts, setPosts] = useState([])
 	const {data: session} = useSession()
 
@@ -16,6 +18,8 @@ function Posts ({filter}) {
 					where('username', '==', filter),
 					orderBy('timestamp', 'desc')),
 				snapshot => {
+					if (snapshot.docs.length === 0)
+						router.push('/404')
 					setPosts(snapshot.docs)
 				}
 			)

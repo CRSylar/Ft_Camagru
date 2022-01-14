@@ -59,7 +59,7 @@ function Suggestions () {
 			if (session.user.following.length > 0)
 				session.user.following = [...session?.user?.following, id]
 			else
-				session.user.following = id
+				session.user.following = [id]
 			await setFollowing(session?.user.following)
 		}
 	}

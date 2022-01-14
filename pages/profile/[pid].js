@@ -15,8 +15,8 @@ function Profile () {
 
 	useEffect( () => {
 		if (!session && status !== 'loading')
-			router.push('/auth/signin')}
-		,
+			router.push('/auth/signin')
+	},
 		[session, status]
 	)
 

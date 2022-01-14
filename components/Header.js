@@ -16,12 +16,18 @@ import {useRecoilState} from "recoil";
 import {modalState} from "../atoms/modalAtom";
 import Image from "next/image";
 import MenuItem from "./MenuItem";
+import {useForm} from "react-hook-form";
 
 function Header () {
 
 	const {data: session} = useSession()
+	const { register, handleSubmit } = useForm();
 	const [open, setOpen] = useRecoilState(modalState)
 	const router = useRouter()
+
+	const onSubmit = (data) => {
+		router.push(`/profile/${data.searchBox}`)
+	}
 
 	return (
 		<div className='shadow-sm border-b bg-white sticky top-0 z-50'>
@@ -42,9 +48,14 @@ function Header () {
 						<div className={styles.header_searchIcon}>
 							<SearchIcon className='h-5 w-5 text-gray-500' />
 						</div>
-						<input className={styles.header__searchField}
+						<form onSubmit={handleSubmit(onSubmit)}>
+							<input className={styles.header__searchField}
+						       disabled={!session}
 						       type={'text'}
-						       placeholder={'Search'}/>
+						       placeholder={'Search'}
+						         {...register("searchBox", {required: true})}
+							/>
+						</form>
 					</div>
 				</div>
 
