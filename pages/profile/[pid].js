@@ -33,9 +33,8 @@ function Profile () {
 				</section>
 			</main>
 
-			<div className='tall:absolute tall:bottom-0 tall:inset-x-0' >
-				<Footer/>
-			</div>
+			<Footer/>
+			
 			<Modal/>
 		</div>
 	);
